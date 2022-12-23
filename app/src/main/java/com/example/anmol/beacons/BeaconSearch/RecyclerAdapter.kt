@@ -6,13 +6,15 @@ import com.example.anmol.beacons.R
 import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.view.View
+import org.altbeacon.beacon.Beacon
 import java.util.ArrayList
+import kotlin.math.roundToInt
 
 /*
      Adapter for Recycler View
 */
 internal class RecyclerAdapter     // Constructor
-    (var arr: ArrayList<ArrayList<String>>) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+    (var beaconList: ArrayList<Beacon>) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
     /*
        View Holder class to instantiate views
      */
@@ -28,6 +30,10 @@ internal class RecyclerAdapter     // Constructor
 
         //Distance
         val distance: TextView
+        val type: TextView
+        val rssi: TextView
+        val count: TextView
+        val time: TextView
 
         //View Holder Class Constructor
         init {
@@ -37,39 +43,37 @@ internal class RecyclerAdapter     // Constructor
             major = itemView.findViewById(R.id.major)
             minor = itemView.findViewById(R.id.minor)
             distance = itemView.findViewById(R.id.distance)
+            type = itemView.findViewById(R.id.type)
+            rssi = itemView.findViewById(R.id.rssi)
+            count = itemView.findViewById(R.id.count)
+            time = itemView.findViewById(R.id.time)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.recycler_card_search, parent, false)
+                .inflate(R.layout.search_items, parent, false)
         )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         // Getting Array List within respective position
-        val arrayList = arr[position]
+        val beacon = beaconList[position]
 
-        // Checking if arrayList size > 0
-        if (arrayList.size > 0) {
-
-            // Displaying UUID
-            holder.uuid.text = arrayList[0]
-
-            //Displaying Major
-            holder.major.text = arrayList[1]
-
-            //Displaying Minor
-            holder.minor.text = arrayList[2]
-
-            //Displaying distance
-            holder.distance.text = arrayList[3]
-        }
+        val distance = ((beacon.distance * 100.0).roundToInt() / 100.0).toString()
+        holder.uuid.text = beacon.id1.toString()
+        holder.major.text = beacon.id2.toString()
+        holder.minor.text = beacon.id3.toString()
+        holder.distance.text = "$distance meters"
+        holder.type.text = beacon.beaconTypeCode.toString()
+        holder.rssi.text = beacon.rssi.toString()
+//            holder.count.text = beacon.co
+//            holder.time.text = beacon.id1
     }
 
     override fun getItemCount(): Int {
-        return arr.size
+        return beaconList.size
     }
 }

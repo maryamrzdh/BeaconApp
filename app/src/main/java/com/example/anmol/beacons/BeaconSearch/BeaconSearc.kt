@@ -130,7 +130,7 @@ class BeaconSearc : Fragment(), BeaconConsumer {
             // Checking if the Beacon inside the collection (ex. list) is there or not
 
             // if Beacon is detected then size of collection is > 0
-            if (beacons.size > 0) {
+            if (beacons.isNotEmpty()) {
                 try {
                     requireActivity().runOnUiThread { // Make ProgressBar Invisible
                         pb!!.visibility = View.INVISIBLE
@@ -147,29 +147,26 @@ class BeaconSearc : Fragment(), BeaconConsumer {
                     }
                 } catch (e: Exception) {
                 }
-                val arrayList = ArrayList<ArrayList<String>>()
+                val arrayList = ArrayList<Beacon>()
 
                 // Iterating through all Beacons from Collection of Beacons
                 for (b in beacons) {
 
-                    //UUID
-                    val uuid = b.id1.toString()
-
-                    //Major
-                    val major = b.id2.toString()
-
-                    //Minor
-                    val minor = b.id3.toString()
-
-                    //Distance
-                    val distance1 = b.distance
-                    val distance = (Math.round(distance1 * 100.0) / 100.0).toString()
-                    val arr = ArrayList<String>()
-                    arr.add(uuid)
-                    arr.add(major)
-                    arr.add(minor)
-                    arr.add("$distance meters")
-                    arrayList.add(arr)
+//                    //UUID
+//                    val uuid = b.id1.toString()
+//                    //Major
+//                    val major = b.id2.toString()
+//                    //Minor
+//                    val minor = b.id3.toString()
+//                    //Distance
+//                    val distance1 = b.distance
+//                    val distance = (Math.round(distance1 * 100.0) / 100.0).toString()
+//                    val arr = ArrayList<String>()
+//                    arr.add(uuid)
+//                    arr.add(major)
+//                    arr.add(minor)
+//                    arr.add("$distance meters")
+                    arrayList.add(b)
                 }
                 try {
                     requireActivity().runOnUiThread { // Setting Up the Adapter for Recycler View

@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:elevation="8dp"
+    android:layoutDirection="ltr"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/card_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="UUID :"
+            android:textColor="#000"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/uuid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:paddingLeft="30sp"
+            android:text="uuid"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/card_one"
+            app:layout_constraintStart_toEndOf="@+id/card_one"
+            app:layout_constraintTop_toTopOf="@+id/card_one" />
+
+        <TextView
+            android:id="@+id/card_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Major :"
+            android:textColor="#000"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/card_one"
+            app:layout_constraintStart_toStartOf="@+id/card_one"
+            app:layout_constraintTop_toBottomOf="@+id/card_one" />
+
+        <TextView
+            android:id="@+id/major"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:paddingLeft="30sp"
+            android:text="Major"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/card_two"
+            app:layout_constraintStart_toEndOf="@+id/card_two"
+            app:layout_constraintTop_toTopOf="@+id/card_two" />
+
+        <TextView
+            android:id="@+id/card_three"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Minor :"
+            android:textColor="#000"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/card_two"
+            app:layout_constraintStart_toStartOf="@+id/card_one"
+            app:layout_constraintTop_toBottomOf="@+id/card_two" />
+
+        <TextView
+            android:id="@+id/minor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@id/card_one"
+            android:paddingLeft="30sp"
+            android:text="Minor"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/card_three"
+            app:layout_constraintStart_toEndOf="@+id/card_three"
+            app:layout_constraintTop_toTopOf="@+id/card_three" />
+
+        <TextView
+            android:id="@+id/card_four"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Distance :"
+            android:textColor="#000"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/card_three"
+            app:layout_constraintStart_toStartOf="@+id/card_one"
+            app:layout_constraintTop_toBottomOf="@+id/card_three" />
+
+        <TextView
+            android:id="@+id/distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:paddingLeft="30sp"
+            android:text="Distance"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/card_four"
+            app:layout_constraintStart_toEndOf="@+id/card_four"
+            app:layout_constraintTop_toTopOf="@+id/card_four" />
+
+        <TextView
+            android:id="@+id/card_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Type :"
+            android:textColor="#000"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/card_four"
+            app:layout_constraintTop_toBottomOf="@+id/card_four" />
+
+        <TextView
+            android:id="@+id/type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:paddingLeft="30sp"
+            android:text="ibeacon"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/card_type"
+            app:layout_constraintStart_toEndOf="@+id/card_type"
+            app:layout_constraintTop_toTopOf="@+id/card_type" />
+
+        <TextView
+            android:id="@+id/card_RSSI"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="RSSI :"
+            android:textColor="#000"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/card_type"
+            app:layout_constraintTop_toBottomOf="@+id/card_type" />
+
+        <TextView
+            android:id="@+id/rssi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:paddingLeft="30sp"
+            android:text="rssi"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/card_RSSI"
+            app:layout_constraintStart_toEndOf="@+id/card_RSSI"
+            app:layout_constraintTop_toTopOf="@+id/card_RSSI" />
+
+
+        <TextView
+            android:id="@+id/card_Count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Count :"
+            android:textColor="#000"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/card_RSSI"
+            app:layout_constraintTop_toBottomOf="@+id/card_RSSI" />
+
+        <TextView
+            android:id="@+id/count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:paddingLeft="30sp"
+            android:text="0"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/card_Count"
+            app:layout_constraintStart_toEndOf="@+id/card_Count"
+            app:layout_constraintTop_toTopOf="@+id/card_Count" />
+
+        <TextView
+            android:id="@+id/card_Time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="Time :"
+            android:textColor="#000"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/card_Count"
+            app:layout_constraintTop_toBottomOf="@+id/card_Count" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:paddingLeft="30sp"
+            android:text="0"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/card_Time"
+            app:layout_constraintStart_toEndOf="@+id/card_Time"
+            app:layout_constraintTop_toTopOf="@+id/card_Time" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

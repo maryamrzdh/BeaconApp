@@ -1,20 +1,23 @@
 package com.example.anmol.beacons.BeaconSearch
 
+import android.content.Context
+import android.text.format.DateUtils
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.TextView
 import com.example.anmol.beacons.R
 import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.view.View
+import com.example.anmol.beacons.beaconSimulator.count
 import org.altbeacon.beacon.Beacon
-import java.util.ArrayList
+import java.util.*
 import kotlin.math.roundToInt
 
 /*
      Adapter for Recycler View
 */
 internal class RecyclerAdapter     // Constructor
-    (var beaconList: ArrayList<Beacon>) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+    (var context : Context , var beaconList: ArrayList<Beacon>) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
     /*
        View Holder class to instantiate views
      */
@@ -62,15 +65,26 @@ internal class RecyclerAdapter     // Constructor
         // Getting Array List within respective position
         val beacon = beaconList[position]
 
-        val distance = ((beacon.distance * 100.0).roundToInt() / 100.0).toString()
+//        val distance = ((beacon.distance * 100.0).roundToInt() / 100.0).toString()
+        val distance = String.format(Locale.getDefault(), "%.2f", beacon.distance)
+
         holder.uuid.text = beacon.id1.toString()
         holder.major.text = beacon.id2.toString()
         holder.minor.text = beacon.id3.toString()
         holder.distance.text = "$distance meters"
-        holder.type.text = beacon.beaconTypeCode.toString()
+        holder.type.text = beaconType(beacon.beaconTypeCode)
         holder.rssi.text = beacon.rssi.toString()
-//            holder.count.text = beacon.co
-//            holder.time.text = beacon.id1
+        holder.count.text = beacon.count.toString()
+        holder.time.text = Date().time.toString()
+
+    }
+
+    private fun beaconType(code:Int):String {
+        return when(code){
+            0xBEAC -> context.getString(R.string.altbeacon)
+            0x4c000215 -> context.getString(R.string.ibeacon)
+            else->""
+        }
     }
 
     override fun getItemCount(): Int {

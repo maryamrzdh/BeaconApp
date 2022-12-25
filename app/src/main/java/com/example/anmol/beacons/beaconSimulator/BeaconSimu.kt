@@ -2,9 +2,7 @@ package com.example.anmol.beacons.beaconSimulator
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.anmol.beacons.BeaconNotification
 import com.example.anmol.beacons.R
@@ -20,13 +18,24 @@ import java.util.*
 /*
    This Fragment makes one Bluetooth Supported device to act as beacon
  */
-class BeaconSimu : AppCompatActivity() {
+class BeaconSimu : AppCompatActivity() , AdapterView.OnItemSelectedListener{
     // Edit Text for taking both (Major , Minor)
     private lateinit var major: EditText
     private lateinit var minor: EditText
 
     // Text View for displaying UUID
     private lateinit var uuid: TextView
+
+    private lateinit var spinner : Spinner
+    private val paths = arrayOf("ibeacon", "altbeacon")
+
+    var beaconTypeCode = 0x4c000215
+
+    var lastSeen =Date().time.toString()
+
+    var Beacon.lastSeen : String
+    get() = lastSeen
+    set(value:String) {lastSeen = value}
 
     // Button for making device Beacon
     private lateinit var b1: Button
@@ -45,6 +54,9 @@ class BeaconSimu : AppCompatActivity() {
 
         //Button
         b1 = findViewById(R.id.make_beacon)
+
+        spinner = findViewById(R.id.spinner)
+        setSpinner()
 
         // Making of random UUID
         val uuid1 = Math.floor(Math.random() * 8 + 1).toInt()
@@ -84,13 +96,14 @@ class BeaconSimu : AppCompatActivity() {
                              */
                 val beacon = Beacon.Builder()
                     .setId1(uuid1)
-                    .setId2(major.getText().toString())
-                    .setId3(minor.getText().toString())
+                    .setId2(major.text.toString())
+                    .setId3(minor.text.toString())
+                    .setBeaconTypeCode(beaconTypeCode)
                     .setManufacturer(0x0118)
                     .setTxPower(-69)
                     .setRssi(-66)
                     .setBluetoothName("Hall 1")
-                    .setDataFields(Arrays.asList(*arrayOf(0L)))
+                    .setDataFields(listOf(*arrayOf(0L)))
                     .build()
                 val beaconParser = BeaconParser()
                     .setBeaconLayout("m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25")
@@ -118,6 +131,7 @@ class BeaconSimu : AppCompatActivity() {
 //                b1.startAnimation(alphaAnimation)
                 b1.setText("Beacon Successfully Made")
 
+//                beacon.lastSeen = Date().time.toString()
                 BeaconNotification.beaconList.add(beacon)
 
 //                val intent = intent
@@ -126,4 +140,29 @@ class BeaconSimu : AppCompatActivity() {
             }
         })
     }
+
+    fun setSpinner(){
+        val adapter = ArrayAdapter(
+            this@BeaconSimu,
+            android.R.layout.simple_spinner_item, paths
+        )
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.adapter = adapter
+        spinner.onItemSelectedListener = this
+        spinner.setSelection(0)
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>?, v: View?, position: Int, id: Long) {
+        when (position) {
+            0 -> {beaconTypeCode = 0x4c000215}
+            1 -> {beaconTypeCode = 0xBEAC}
+        }
+    }
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {
+        TODO("Not yet implemented")
+    }
+
+
 }

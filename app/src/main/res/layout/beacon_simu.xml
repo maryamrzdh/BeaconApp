@@ -78,6 +78,15 @@
         android:layout_height="wrap_content" />
 
 
+
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/minor_simu"
+        />
+
     <Button
         android:id="@+id/make_beacon"
         android:layout_marginTop="30dp"
@@ -85,7 +94,7 @@
         android:padding="20dp"
         android:textColor="#fff"
         android:background="#004D40"
-        android:layout_below="@id/minor_simu"
+        android:layout_below="@id/spinner"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

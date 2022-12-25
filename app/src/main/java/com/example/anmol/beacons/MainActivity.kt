@@ -12,11 +12,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
-import com.example.anmol.beacons.BeaconSearch.BeaconSearc
+import com.example.anmol.beacons.BeaconSearch.BeaconSearch
 import com.example.anmol.beacons.beaconSimulator.BeaconListFragment
+import com.example.anmol.beacons.mqtt.MqttClientHelper
 import com.google.android.material.tabs.TabLayout
 
 class MainActivity : AppCompatActivity() {
+
     // ToolBar
     private var toolbar: Toolbar? = null
 
@@ -105,7 +107,7 @@ class MainActivity : AppCompatActivity() {
      */
     private fun setupViewPager(viewPager: ViewPager?) {
         val adapter = ViewPagerAdapter(supportFragmentManager)
-        adapter.addFragment(BeaconSearc(), "Search")
+        adapter.addFragment(BeaconSearch(), "Search")
         adapter.addFragment(BeaconListFragment(), "Simulator")
         viewPager!!.adapter = adapter
     }

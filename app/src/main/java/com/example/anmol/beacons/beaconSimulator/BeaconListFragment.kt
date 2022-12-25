@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.anmol.beacons.BeaconNotification
-import com.example.anmol.beacons.BeaconSearch.RecyclerAdapter
 import com.example.anmol.beacons.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.altbeacon.beacon.Beacon

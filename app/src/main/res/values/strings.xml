@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Beacons</string>
+    <string name="ibeacon">ibeacon</string>
+    <string name="altbeacon">altbeacon</string>
 </resources>

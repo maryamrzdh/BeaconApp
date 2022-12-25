@@ -37,7 +37,6 @@ import kotlin.collections.ArrayList
  */
 class BeaconSearch : Fragment(), BeaconConsumer {
 
-    val
     private val mqttClient by lazy {
         MqttClientHelper(requireContext())
     }
@@ -154,9 +153,9 @@ class BeaconSearch : Fragment(), BeaconConsumer {
         //Specifies a class that should be called each time the BeaconService gets ranging data,
         // which is nominally once per second when beacons are detected.
         beaconManager!!.addRangeNotifier { beacons, region ->
-            beaconList.clear()
-            beaconList.addAll(beacons)
-            showBeacons(beacons)
+//            beaconList.clear()
+//            beaconList.addAll(beacons)
+            showBeacons(beacons as ArrayList<Beacon>)
         }
         try {
 
@@ -194,7 +193,7 @@ class BeaconSearch : Fragment(), BeaconConsumer {
         beaconManager!!.unbind(this)
     }
 
-    private fun showBeacons(beacons: MutableCollection<Beacon>){
+    private fun showBeacons(beacons: ArrayList<Beacon>){
 
         // if Beacon is detected then size of collection is > 0
         if (beacons.isNotEmpty()) {
@@ -218,12 +217,12 @@ class BeaconSearch : Fragment(), BeaconConsumer {
 
             // Iterating through all Beacons from Collection of Beacons
             for (b in beacons) {
-                b.count = 5
-                arrayList.add(b)
+//                b.count = 5
+//                arrayList.add(b)
             }
             try {
                 requireActivity().runOnUiThread { // Setting Up the Adapter for Recycler View
-                    adapter = RecyclerAdapter(requireContext() , arrayList)
+                    adapter = RecyclerAdapter(requireContext() , beacons)
                     rv!!.adapter = adapter
                     adapter?.notifyDataSetChanged()
                 }

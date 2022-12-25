@@ -1,17 +1,15 @@
 package com.example.anmol.beacons.BeaconSearch
 
 import android.content.Context
-import android.text.format.DateUtils
-import androidx.recyclerview.widget.RecyclerView
-import android.widget.TextView
-import com.example.anmol.beacons.R
-import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.view.View
-import com.example.anmol.beacons.beaconSimulator.count
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.example.anmol.beacons.R
 import org.altbeacon.beacon.Beacon
+import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.roundToInt
 
 /*
      Adapter for Recycler View
@@ -74,15 +72,24 @@ internal class RecyclerAdapter     // Constructor
         holder.distance.text = "$distance meters"
         holder.type.text = beaconType(beacon.beaconTypeCode)
         holder.rssi.text = beacon.rssi.toString()
-        holder.count.text = beacon.count.toString()
-        holder.time.text = Date().time.toString()
+        holder.count.text = beacon.packetCount.toString()
+        // TODO:
+        //parsidentifier mige k chie
+//        holder.time.text = convertLongToTime(Date().time)
+        holder.time.text = convertLongToTime(beacon.firstCycleDetectionTimestamp)
 
+    }
+
+    private fun convertLongToTime(time: Long): String {
+        val date = Date(time)
+        val format = SimpleDateFormat("HH:mm:ss")
+        return format.format(date)
     }
 
     private fun beaconType(code:Int):String {
         return when(code){
-            0xBEAC -> context.getString(R.string.altbeacon)
-            0x4c000215 -> context.getString(R.string.ibeacon)
+            48812 -> context.getString(R.string.altbeacon)
+            533 -> context.getString(R.string.ibeacon)
             else->""
         }
     }

@@ -1,5 +1,6 @@
 package com.example.anmol.beacons.beaconSimulator
 
+import android.content.Context
 import org.altbeacon.beacon.Beacon
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.TextView
@@ -8,7 +9,7 @@ import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.view.View
 
-internal class BeaconListAdapter(var arr: ArrayList<Beacon>) : RecyclerView.Adapter<BeaconListAdapter.ViewHolder>() {
+internal class BeaconListAdapter(var context : Context, var arr: ArrayList<Beacon>) : RecyclerView.Adapter<BeaconListAdapter.ViewHolder>() {
     /*
        View Holder class to instantiate views
      */
@@ -24,6 +25,7 @@ internal class BeaconListAdapter(var arr: ArrayList<Beacon>) : RecyclerView.Adap
 
         //Distance
         val distance: TextView
+        val type: TextView
 
         //View Holder Class Constructor
         init {
@@ -33,6 +35,7 @@ internal class BeaconListAdapter(var arr: ArrayList<Beacon>) : RecyclerView.Adap
             major = itemView.findViewById(R.id.major)
             minor = itemView.findViewById(R.id.minor)
             distance = itemView.findViewById(R.id.distance)
+            type = itemView.findViewById(R.id.type)
         }
     }
 
@@ -59,14 +62,11 @@ internal class BeaconListAdapter(var arr: ArrayList<Beacon>) : RecyclerView.Adap
 
         //Displaying distance
         holder.distance.text = beacon.distance.toString()
+
+        holder.type.text = beaconType(beacon.beaconTypeCode)
     }
 
     override fun getItemCount(): Int {
-//        return if (arr.size == 0) {
-//            1
-//        } else {
-//            arr.size
-//        }
         return arr.size
     }
 
@@ -74,5 +74,13 @@ internal class BeaconListAdapter(var arr: ArrayList<Beacon>) : RecyclerView.Adap
 //        arr.clear()
         arr.addAll(beacons)
         notifyDataSetChanged()
+    }
+
+    private fun beaconType(code:Int):String {
+        return when(code){
+            48812 -> context.getString(R.string.altbeacon)
+            533 -> context.getString(R.string.ibeacon)
+            else->""
+        }
     }
 }

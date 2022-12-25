@@ -47,7 +47,7 @@ class BeaconListFragment : Fragment() {
     }
 
     fun initAdapter(){
-        adapter = BeaconListAdapter(BeaconNotification.beaconList)
+        adapter = BeaconListAdapter(requireContext() , BeaconNotification.beaconList)
         rec.adapter = adapter
         adapter.notifyDataSetChanged()
 

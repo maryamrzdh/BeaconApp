@@ -93,12 +93,43 @@
             android:id="@+id/distance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/card_three"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_toRightOf="@id/card_one"
             android:paddingLeft="30sp"
-            android:textSize="10sp"
-            android:layout_margin="10dp"
-            android:layout_below="@id/card_three"
             android:text="Distance"
-            />
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/card_five"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:layout_margin="10dp"
+            android:layout_below="@id/card_four"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Type :"/>
+
+        <TextView
+            android:id="@+id/type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/card_four"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toRightOf="@id/card_five"
+            android:paddingLeft="30sp"
+            android:text=""
+            android:textSize="10sp" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

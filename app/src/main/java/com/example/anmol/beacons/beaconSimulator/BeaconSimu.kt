@@ -29,7 +29,8 @@ class BeaconSimu : AppCompatActivity() , AdapterView.OnItemSelectedListener{
     private lateinit var spinner : Spinner
     private val paths = arrayOf("ibeacon", "altbeacon")
 
-    var beaconTypeCode = 0x4c000215
+//    var beaconTypeCode = 0x4c000215
+    var beaconTypeCode = 533
 
     var lastSeen =Date().time.toString()
 
@@ -155,8 +156,11 @@ class BeaconSimu : AppCompatActivity() , AdapterView.OnItemSelectedListener{
 
     override fun onItemSelected(parent: AdapterView<*>?, v: View?, position: Int, id: Long) {
         when (position) {
-            0 -> {beaconTypeCode = 0x4c000215}
-            1 -> {beaconTypeCode = 0xBEAC}
+//            0 -> {beaconTypeCode = 0x4c000215}
+//            1 -> {beaconTypeCode = 0xBEAC}
+
+            0 -> {beaconTypeCode = 533}
+            1 -> {beaconTypeCode = 48812}
         }
     }
 

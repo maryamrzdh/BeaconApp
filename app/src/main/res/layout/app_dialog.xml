@@ -41,8 +41,7 @@
                 android:padding="5dp"
                 tools:text="app/beacon"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                app:fontName="IRANSansMobile_Bold.ttf" />
+                android:textStyle="bold" />
 
 
             <androidx.recyclerview.widget.RecyclerView

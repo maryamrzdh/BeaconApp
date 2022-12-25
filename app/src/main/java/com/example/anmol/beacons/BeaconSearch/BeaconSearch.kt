@@ -2,12 +2,18 @@ package com.example.anmol.beacons.BeaconSearch
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Context.SENSOR_SERVICE
 import android.content.Intent
 import android.content.ServiceConnection
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.os.Bundle
 import android.os.RemoteException
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,22 +30,30 @@ import com.example.anmol.beacons.AdapterMsg
 import com.example.anmol.beacons.R
 import com.example.anmol.beacons.beaconSimulator.count
 import com.example.anmol.beacons.mqtt.MqttClientHelper
+import com.google.android.material.snackbar.Snackbar
 import org.altbeacon.beacon.*
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended
 import org.eclipse.paho.client.mqttv3.MqttException
 import org.eclipse.paho.client.mqttv3.MqttMessage
+import java.lang.Math.sqrt
 import kotlin.collections.ArrayList
+import kotlin.math.pow
 
 
 /*
     This Fragment will display all the beacons detected by device with their details in the list
  */
-class BeaconSearch : Fragment(), BeaconConsumer {
+class BeaconSearch : Fragment(), BeaconConsumer , SensorEventListener {
 
     private val mqttClient by lazy {
         MqttClientHelper(requireContext())
     }
+
+    var speed :String = ""
+
+    private lateinit var sensorManager: SensorManager
+    private var speedSensor: Sensor? = null
 
     var beaconList = arrayListOf<Beacon>()
     //Relative Layout
@@ -97,7 +111,16 @@ class BeaconSearch : Fragment(), BeaconConsumer {
 
         val publishBtn = v.findViewById<Button>(R.id.btn_publish)
         publishBtn.setOnClickListener { publishBeacon() }
+
+        setUpSensor()
+
         return v
+    }
+
+    // Declared setupSensor function
+    private fun setUpSensor() {
+        sensorManager = requireContext().getSystemService(SENSOR_SERVICE) as SensorManager
+        speedSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)
     }
 
     override fun onBeaconServiceConnect() {
@@ -246,8 +269,8 @@ class BeaconSearch : Fragment(), BeaconConsumer {
 
     private fun publishBeacon(){
         try {
-            mqttClient.publish("app/beacon", "")
-            mqttClient.publish("app/accelerometer", "")
+            mqttClient.publish("app/beacon", "aaa")
+            mqttClient.publish("app/accelerometer", speed)
             "Published to topic app/beacon'"
         } catch (ex: MqttException) {
             "Error publishing to topic: app/beacon"
@@ -280,12 +303,16 @@ class BeaconSearch : Fragment(), BeaconConsumer {
             }
             @Throws(Exception::class)
             override fun messageArrived(topic: String, mqttMessage: MqttMessage) {
-//                Log.w("Debug", "Message received from host '$SOLACE_MQTT_HOST': $mqttMessage")
+                Log.w("Debug", "Message received from host '': $mqttMessage")
 //                textViewNumMsgs.text = ("${textViewNumMsgs.text.toString().toInt() + 1}")
 //                val str: String = "------------"+ Calendar.getInstance().time +"-------------\n$mqttMessage\n${textViewMsgPayload.text}"
 //                textViewMsgPayload.text = str
 
 //                showDialog(topic,mqttMessage)
+
+                Snackbar.make(requireActivity().findViewById(android.R.id.content), "$mqttMessage",
+                    Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show()
             }
 
             override fun deliveryComplete(iMqttDeliveryToken: IMqttDeliveryToken) {
@@ -314,6 +341,33 @@ class BeaconSearch : Fragment(), BeaconConsumer {
 //            dialog.dismiss()
 //        }
         dialog.show()
+    }
+
+    // This is onResume function of our app
+    override fun onResume() {
+        super.onResume()
+        sensorManager.registerListener(this, speedSensor, SensorManager.SENSOR_DELAY_NORMAL)
+    }
+
+    // This is onPause function of our app
+    override fun onPause() {
+        super.onPause()
+        sensorManager.unregisterListener(this)
+    }
+
+    override fun onSensorChanged(event: SensorEvent?) {
+
+        val motion = kotlin.math.sqrt(
+            event!!.values[0].toDouble().pow(2.0) +
+                    event.values[1].toDouble().pow(2.0) +
+                    event.values[2].toDouble().pow(2.0)
+        )
+
+        speed = (motion * 3.6).toFloat().toString()
+    }
+
+    override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
+        TODO("Not yet implemented")
     }
 
 }

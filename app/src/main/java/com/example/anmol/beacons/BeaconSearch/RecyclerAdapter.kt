@@ -70,11 +70,10 @@ internal class RecyclerAdapter     // Constructor
         holder.major.text = beacon.id2.toString()
         holder.minor.text = beacon.id3.toString()
         holder.distance.text = "$distance meters"
-        holder.type.text = beaconType(beacon.beaconTypeCode)
+//        holder.type.text = beaconType(beacon.beaconTypeCode)
+        holder.type.text = beaconType(beacon.manufacturer)
         holder.rssi.text = beacon.rssi.toString()
         holder.count.text = beacon.packetCount.toString()
-        // TODO:
-        //parsidentifier mige k chie
 //        holder.time.text = convertLongToTime(Date().time)
         holder.time.text = convertLongToTime(beacon.firstCycleDetectionTimestamp)
 
@@ -86,10 +85,11 @@ internal class RecyclerAdapter     // Constructor
         return format.format(date)
     }
 
+    // TODO:
     private fun beaconType(code:Int):String {
         return when(code){
-            48812 -> context.getString(R.string.altbeacon)
-            533 -> context.getString(R.string.ibeacon)
+            0x0118 -> context.getString(R.string.altbeacon)
+            0x004C -> context.getString(R.string.ibeacon)
             else->""
         }
     }

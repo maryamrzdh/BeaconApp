@@ -8,7 +8,7 @@ package com.example.anmol.beacons
 const val SOLACE_CLIENT_USER_NAME = "solace-cloud-client"
 const val SOLACE_CLIENT_PASSWORD = "PLACEHOLDER_PASSWORD"
 //const val SOLACE_MQTT_HOST = "tcp://PLACEHOLDER_SERVICE_ID.messaging.solace.cloud:1883"
-const val SOLACE_MQTT_HOST = "https://mosquitto.org/"
+const val SOLACE_MQTT_HOST = "https://mosquitto.org"
 
 // Other options
 const val SOLACE_CONNECTION_TIMEOUT = 3

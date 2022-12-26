@@ -2,4 +2,11 @@
     <string name="app_name">Beacons</string>
     <string name="ibeacon">ibeacon</string>
     <string name="altbeacon">altbeacon</string>
+    <string name="heading_msg_payload">heading_msg_payload</string>
+    <string name="message_payload" >message_payload</string>
+    <string name="messages_received" >messages_received</string>
+    <string name="subscribe_to_topic">subscribe_to_topic</string>
+    <string name="publish_to_topic">publish_to_topic</string>
+    <string name="publish">publish</string>
+    <string name="subscribe">subscribe</string>
 </resources>

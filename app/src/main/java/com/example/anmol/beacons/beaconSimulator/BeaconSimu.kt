@@ -31,6 +31,7 @@ class BeaconSimu : AppCompatActivity() , AdapterView.OnItemSelectedListener{
 
 //    var beaconTypeCode = 0x4c000215
     var beaconTypeCode = 533
+    var beaconManufacture = 0x004C
 
     var lastSeen =Date().time.toString()
 
@@ -59,13 +60,15 @@ class BeaconSimu : AppCompatActivity() , AdapterView.OnItemSelectedListener{
         spinner = findViewById(R.id.spinner)
         setSpinner()
 
-        // Making of random UUID
-        val uuid1 = Math.floor(Math.random() * 8 + 1).toInt()
-            .toString() + "f" + Math.floor(Math.random() * (999999 - 100000) + 100000)
-            .toInt() + "-" + "cf" + Math.floor(
-            Math.random() * 8 + 1
-        ).toInt() + "d-4a0f-adf2-f" + Math.floor(Math.random() * 9999 - 1000 + 1000)
-            .toInt() + "ba9ffa6"
+        //// Making of random UUID
+//        val uuid1 = Math.floor(Math.random() * 8 + 1).toInt()
+//            .toString() + "f" + Math.floor(Math.random() * (999999 - 100000) + 100000)
+//            .toInt() + "-" + "cf" + Math.floor(
+//            Math.random() * 8 + 1
+//        ).toInt() + "d-4a0f-adf2-f" + Math.floor(Math.random() * 9999 - 1000 + 1000)
+//            .toInt() + "ba9ffa6"
+
+        val uuid1 =UUID.randomUUID().hashCode().toString()
         // Displaying the random UUID to TextView
         uuid.setText(uuid1)
 
@@ -99,7 +102,7 @@ class BeaconSimu : AppCompatActivity() , AdapterView.OnItemSelectedListener{
                     .setId1(uuid1)
                     .setId2(major.text.toString())
                     .setId3(minor.text.toString())
-                    .setBeaconTypeCode(beaconTypeCode)
+//                    .setBeaconTypeCode(beaconTypeCode)
                     .setManufacturer(0x0118)
                     .setTxPower(-69)
                     .setRssi(-66)
@@ -159,8 +162,11 @@ class BeaconSimu : AppCompatActivity() , AdapterView.OnItemSelectedListener{
 //            0 -> {beaconTypeCode = 0x4c000215}
 //            1 -> {beaconTypeCode = 0xBEAC}
 
-            0 -> {beaconTypeCode = 533}
-            1 -> {beaconTypeCode = 48812}
+//            0 -> {beaconTypeCode = 533}
+//            1 -> {beaconTypeCode = 48812}
+
+            0 -> {beaconManufacture = 0x004C}
+            1 -> {beaconManufacture = 0x0118}
         }
     }
 

@@ -13,6 +13,6 @@ class BeaconBroadCast : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         println("Again Starting the service")
         //Again starting the service
-        context.startService(Intent(context, BeaconService::class.java))
+//        context.startService(Intent(context, BeaconService::class.java))
     }
 }

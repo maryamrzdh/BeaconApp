@@ -44,16 +44,13 @@ import kotlin.math.pow
 /*
     This Fragment will display all the beacons detected by device with their details in the list
  */
-class BeaconSearch : Fragment(), BeaconConsumer , SensorEventListener {
+class BeaconSearch : Fragment(), BeaconConsumer  {
 
     private val mqttClient by lazy {
         MqttClientHelper(requireContext())
     }
 
-    var speed :String = ""
 
-    private lateinit var sensorManager: SensorManager
-    private var speedSensor: Sensor? = null
 
     var beaconList = arrayListOf<Beacon>()
     //Relative Layout
@@ -71,7 +68,7 @@ class BeaconSearch : Fragment(), BeaconConsumer , SensorEventListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setMqttCallBack()
+//        setMqttCallBack()
         //getting beaconManager instance (object) for Main Activity class
         beaconManager = BeaconManager.getInstanceForApplication(requireActivity())
 
@@ -82,14 +79,6 @@ class BeaconSearch : Fragment(), BeaconConsumer , SensorEventListener {
         //Binding MainActivity to the BeaconService.
         beaconManager!!.bind(this)
 
-//        val region = Region("myBeaons", null, null, null)
-//
-//        beaconManager!!.getRegionViewModel(region).rangedBeacons.observe(this){ beacons ->
-//            Log.d("TAG", "Ranged: ${beacons.count()} beacons")
-//            for (beacon: Beacon in beacons) {
-//                Log.d("TAG", "$beacon about ${beacon.distance} meters away")
-//            }
-//        }
     }
 
     override fun onCreateView(
@@ -98,29 +87,11 @@ class BeaconSearch : Fragment(), BeaconConsumer , SensorEventListener {
     ): View? {
         val v = inflater.inflate(R.layout.beacon_search, container, false)
 
-        // Intializing the Layout
-
-        //Relative Layout
         rl = v.findViewById(R.id.Relative_One)
-
-        // Recycler View
         rv = v.findViewById(R.id.search_recycler)
-
-        //Progress Bar
         pb = v.findViewById(R.id.pb)
 
-        val publishBtn = v.findViewById<Button>(R.id.btn_publish)
-        publishBtn.setOnClickListener { publishBeacon() }
-
-        setUpSensor()
-
         return v
-    }
-
-    // Declared setupSensor function
-    private fun setUpSensor() {
-        sensorManager = requireContext().getSystemService(SENSOR_SERVICE) as SensorManager
-        speedSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)
     }
 
     override fun onBeaconServiceConnect() {
@@ -267,107 +238,63 @@ class BeaconSearch : Fragment(), BeaconConsumer , SensorEventListener {
         }
     }
 
-    private fun publishBeacon(){
-        try {
-            mqttClient.publish("app/beacon", "aaa")
-            mqttClient.publish("app/accelerometer", speed)
-            "Published to topic app/beacon'"
-        } catch (ex: MqttException) {
-            "Error publishing to topic: app/beacon"
-        }
-    }
 
-    private fun subscribeBeacon(){
-        val topic = "app/accelerometer"
-        try {
-            mqttClient.subscribe(topic)
-            "Subscribed to topic '$topic'"
-        } catch (ex: MqttException) {
-            "Error subscribing to topic: $topic"
-        }
-    }
 
-    private fun setMqttCallBack() {
-        mqttClient.setCallback(object : MqttCallbackExtended {
-            override fun connectComplete(b: Boolean, s: String) {
-//                val snackbarMsg = "Connected to host:\n'$SOLACE_MQTT_HOST'."
-//                Log.w("Debug", snackbarMsg)
-//                Snackbar.make(requireActivity().findViewById(android.R.id.content), snackbarMsg, Snackbar.LENGTH_LONG)
-//                    .setAction("Action", null).show()
-            }
-            override fun connectionLost(throwable: Throwable) {
-//                val snackbarMsg = "Connection to host lost:\n'$SOLACE_MQTT_HOST'"
-//                Log.w("Debug", snackbarMsg)
-//                Snackbar.make(requireActivity().findViewById(android.R.id.content), snackbarMsg, Snackbar.LENGTH_LONG)
-//                    .setAction("Action", null).show()
-            }
-            @Throws(Exception::class)
-            override fun messageArrived(topic: String, mqttMessage: MqttMessage) {
-                Log.w("Debug", "Message received from host '': $mqttMessage")
-//                textViewNumMsgs.text = ("${textViewNumMsgs.text.toString().toInt() + 1}")
-//                val str: String = "------------"+ Calendar.getInstance().time +"-------------\n$mqttMessage\n${textViewMsgPayload.text}"
-//                textViewMsgPayload.text = str
-
-//                showDialog(topic,mqttMessage)
-
-                Snackbar.make(requireActivity().findViewById(android.R.id.content), "$mqttMessage",
-                    Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-            }
-
-            override fun deliveryComplete(iMqttDeliveryToken: IMqttDeliveryToken) {
-//                Log.w("Debug", "Message published to host '$SOLACE_MQTT_HOST'")
-            }
-        })
-    }
-
-    private fun showDialog(topic: String, msg: ArrayList<String>) {
-        val dialog = Dialog(requireContext())
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-        dialog.setContentView(R.layout.app_dialog)
-        dialog.window?.setBackgroundDrawable( ColorDrawable(Color.TRANSPARENT))
-
-        val becons = dialog.findViewById(R.id.top) as RecyclerView
-        becons.layoutManager = LinearLayoutManager(requireContext())
-        val adapter = AdapterMsg(requireContext() , msg)
-        becons.adapter = adapter
-
-        val body = dialog.findViewById(R.id.ok_dialog_title) as TextView
-        body.text = topic
+//    private fun setMqttCallBack() {
+//        mqttClient.setCallback(object : MqttCallbackExtended {
+//            override fun connectComplete(b: Boolean, s: String) {
+////                val snackbarMsg = "Connected to host:\n'$SOLACE_MQTT_HOST'."
+////                Log.w("Debug", snackbarMsg)
+////                Snackbar.make(requireActivity().findViewById(android.R.id.content), snackbarMsg, Snackbar.LENGTH_LONG)
+////                    .setAction("Action", null).show()
+//            }
+//            override fun connectionLost(throwable: Throwable) {
+////                val snackbarMsg = "Connection to host lost:\n'$SOLACE_MQTT_HOST'"
+////                Log.w("Debug", snackbarMsg)
+////                Snackbar.make(requireActivity().findViewById(android.R.id.content), snackbarMsg, Snackbar.LENGTH_LONG)
+////                    .setAction("Action", null).show()
+//            }
+//            @Throws(Exception::class)
+//            override fun messageArrived(topic: String, mqttMessage: MqttMessage) {
+//                Log.w("Debug", "Message received from host '': $mqttMessage")
+////                textViewNumMsgs.text = ("${textViewNumMsgs.text.toString().toInt() + 1}")
+////                val str: String = "------------"+ Calendar.getInstance().time +"-------------\n$mqttMessage\n${textViewMsgPayload.text}"
+////                textViewMsgPayload.text = str
 //
-//        val yesBtn = dialog.findViewById(R.id.ok_button_dialog) as Button
-//        yesBtn.setOnClickListener {
-//            dialog.dismiss()
-//        }
-        dialog.show()
-    }
+////                showDialog(topic,mqttMessage)
+//
+//                Snackbar.make(requireActivity().findViewById(android.R.id.content), "$mqttMessage",
+//                    Snackbar.LENGTH_LONG)
+//                    .setAction("Action", null).show()
+//            }
+//
+//            override fun deliveryComplete(iMqttDeliveryToken: IMqttDeliveryToken) {
+////                Log.w("Debug", "Message published to host '$SOLACE_MQTT_HOST'")
+//            }
+//        })
+//    }
 
-    // This is onResume function of our app
-    override fun onResume() {
-        super.onResume()
-        sensorManager.registerListener(this, speedSensor, SensorManager.SENSOR_DELAY_NORMAL)
-    }
+//    private fun showDialog(topic: String, msg: ArrayList<String>) {
+//        val dialog = Dialog(requireContext())
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+//        dialog.setCancelable(false)
+//        dialog.setContentView(R.layout.app_dialog)
+//        dialog.window?.setBackgroundDrawable( ColorDrawable(Color.TRANSPARENT))
+//
+//        val becons = dialog.findViewById(R.id.top) as RecyclerView
+//        becons.layoutManager = LinearLayoutManager(requireContext())
+//        val adapter = AdapterMsg(requireContext() , msg)
+//        becons.adapter = adapter
+//
+//        val body = dialog.findViewById(R.id.ok_dialog_title) as TextView
+//        body.text = topic
+////
+////        val yesBtn = dialog.findViewById(R.id.ok_button_dialog) as Button
+////        yesBtn.setOnClickListener {
+////            dialog.dismiss()
+////        }
+//        dialog.show()
+//    }
 
-    // This is onPause function of our app
-    override fun onPause() {
-        super.onPause()
-        sensorManager.unregisterListener(this)
-    }
-
-    override fun onSensorChanged(event: SensorEvent?) {
-
-        val motion = kotlin.math.sqrt(
-            event!!.values[0].toDouble().pow(2.0) +
-                    event.values[1].toDouble().pow(2.0) +
-                    event.values[2].toDouble().pow(2.0)
-        )
-
-        speed = (motion * 3.6).toFloat().toString()
-    }
-
-    override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
-        TODO("Not yet implemented")
-    }
 
 }

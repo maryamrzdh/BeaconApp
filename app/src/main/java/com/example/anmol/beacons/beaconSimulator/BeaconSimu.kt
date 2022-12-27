@@ -102,7 +102,7 @@ class BeaconSimu : AppCompatActivity() , AdapterView.OnItemSelectedListener{
                     .setId1(uuid1)
                     .setId2(major.text.toString())
                     .setId3(minor.text.toString())
-//                    .setBeaconTypeCode(beaconTypeCode)
+                    .setBeaconTypeCode(beaconTypeCode)
                     .setManufacturer(beaconManufacture)
                     .setTxPower(-69)
                     .setRssi(-66)
@@ -165,8 +165,10 @@ class BeaconSimu : AppCompatActivity() , AdapterView.OnItemSelectedListener{
 //            0 -> {beaconTypeCode = 533}
 //            1 -> {beaconTypeCode = 48812}
 
-            0 -> {beaconManufacture = 0x004C}
-            1 -> {beaconManufacture = 0x0118}
+            0 -> {beaconManufacture = 0x004C
+            beaconTypeCode = 533}
+            1 -> {beaconManufacture = 0x0118
+            beaconTypeCode = 48812}
         }
     }
 

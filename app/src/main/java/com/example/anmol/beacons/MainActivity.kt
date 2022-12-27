@@ -14,7 +14,6 @@ import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.example.anmol.beacons.BeaconSearch.BeaconSearch
 import com.example.anmol.beacons.beaconSimulator.BeaconListFragment
-import com.example.anmol.beacons.mqtt.MqttClientHelper
 import com.example.anmol.beacons.mqtt.PublishFragment
 import com.google.android.material.tabs.TabLayout
 

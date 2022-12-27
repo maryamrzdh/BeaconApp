@@ -5,7 +5,6 @@ import android.util.Log
 import com.example.anmol.beacons.*
 import org.eclipse.paho.android.service.MqttAndroidClient
 import org.eclipse.paho.client.mqttv3.*
-import org.eclipse.paho.client.mqttv3.MqttClient
 
 class MqttClientHelper(context: Context?) {
 
@@ -15,7 +14,8 @@ class MqttClientHelper(context: Context?) {
 
     var mqttAndroidClient: MqttAndroidClient
     val serverUri = SOLACE_MQTT_HOST
-    private val clientId: String = MqttClient.generateClientId()
+//    private val clientId: String = MqttClient.generateClientId()
+    private val clientId: String = MqttAsyncClient.generateClientId()
 
     fun setCallback(callback: MqttCallbackExtended?) {
         mqttAndroidClient.setCallback(callback)
@@ -46,8 +46,8 @@ class MqttClientHelper(context: Context?) {
         val mqttConnectOptions = MqttConnectOptions()
         mqttConnectOptions.isAutomaticReconnect = SOLACE_CONNECTION_RECONNECT
         mqttConnectOptions.isCleanSession = SOLACE_CONNECTION_CLEAN_SESSION
-        mqttConnectOptions.userName = SOLACE_CLIENT_USER_NAME
-        mqttConnectOptions.password = SOLACE_CLIENT_PASSWORD.toCharArray()
+//        mqttConnectOptions.userName = SOLACE_CLIENT_USER_NAME
+//        mqttConnectOptions.password = SOLACE_CLIENT_PASSWORD.toCharArray()
         mqttConnectOptions.connectionTimeout = SOLACE_CONNECTION_TIMEOUT
         mqttConnectOptions.keepAliveInterval = SOLACE_CONNECTION_KEEP_ALIVE_INTERVAL
         try {

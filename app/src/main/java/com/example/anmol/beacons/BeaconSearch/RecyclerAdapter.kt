@@ -88,9 +88,11 @@ internal class RecyclerAdapter     // Constructor
     // TODO:
     private fun beaconType(code:Int):String {
         return when(code){
-            0x0118 -> context.getString(R.string.altbeacon)
-            0x004C -> context.getString(R.string.ibeacon)
-            else->""
+//            0x0118 -> context.getString(R.string.altbeacon)
+//            0x004C -> context.getString(R.string.ibeacon)
+//            48812 -> context.getString(R.string.altbeacon)
+            76 -> context.getString(R.string.ibeacon)
+            else->context.getString(R.string.altbeacon)
         }
     }
 

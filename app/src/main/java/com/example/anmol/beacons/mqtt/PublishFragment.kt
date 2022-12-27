@@ -44,7 +44,6 @@ class PublishFragment : Fragment() , SensorEventListener , BeaconConsumer , Adap
 
     var speed :String = ""
 
-    //Beacon Manager
     private var beaconManager: BeaconManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

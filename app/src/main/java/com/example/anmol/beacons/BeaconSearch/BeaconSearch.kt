@@ -1,56 +1,26 @@
 package com.example.anmol.beacons.BeaconSearch
 
-import android.app.Dialog
 import android.content.Context
-import android.content.Context.SENSOR_SERVICE
 import android.content.Intent
 import android.content.ServiceConnection
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.hardware.Sensor
-import android.hardware.SensorEvent
-import android.hardware.SensorEventListener
-import android.hardware.SensorManager
 import android.os.Bundle
 import android.os.RemoteException
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
-import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.anmol.beacons.AdapterMsg
 import com.example.anmol.beacons.R
-import com.example.anmol.beacons.beaconSimulator.count
-import com.example.anmol.beacons.mqtt.MqttClientHelper
-import com.google.android.material.snackbar.Snackbar
 import org.altbeacon.beacon.*
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
-import org.eclipse.paho.client.mqttv3.MqttCallbackExtended
-import org.eclipse.paho.client.mqttv3.MqttException
-import org.eclipse.paho.client.mqttv3.MqttMessage
-import java.lang.Math.sqrt
-import kotlin.collections.ArrayList
-import kotlin.math.pow
 
 
 /*
     This Fragment will display all the beacons detected by device with their details in the list
  */
 class BeaconSearch : Fragment(), BeaconConsumer  {
-
-    private val mqttClient by lazy {
-        MqttClientHelper(requireContext())
-    }
-
-
 
     var beaconList = arrayListOf<Beacon>()
     //Relative Layout
@@ -224,77 +194,13 @@ class BeaconSearch : Fragment(), BeaconConsumer  {
             }
         } else if (beacons.isEmpty()) {
             try {
-                requireActivity().runOnUiThread { // Setting Progress Bar InVisible
+                requireActivity().runOnUiThread {
                     pb!!.visibility = View.INVISIBLE
-
-                    // Setting RelativeLayout to be Visible
                     rl!!.visibility = View.VISIBLE
-
-                    // Setting RecyclerView to be Gone
                     rv!!.visibility = View.GONE
                 }
             } catch (e: Exception) {
             }
         }
     }
-
-
-
-//    private fun setMqttCallBack() {
-//        mqttClient.setCallback(object : MqttCallbackExtended {
-//            override fun connectComplete(b: Boolean, s: String) {
-////                val snackbarMsg = "Connected to host:\n'$SOLACE_MQTT_HOST'."
-////                Log.w("Debug", snackbarMsg)
-////                Snackbar.make(requireActivity().findViewById(android.R.id.content), snackbarMsg, Snackbar.LENGTH_LONG)
-////                    .setAction("Action", null).show()
-//            }
-//            override fun connectionLost(throwable: Throwable) {
-////                val snackbarMsg = "Connection to host lost:\n'$SOLACE_MQTT_HOST'"
-////                Log.w("Debug", snackbarMsg)
-////                Snackbar.make(requireActivity().findViewById(android.R.id.content), snackbarMsg, Snackbar.LENGTH_LONG)
-////                    .setAction("Action", null).show()
-//            }
-//            @Throws(Exception::class)
-//            override fun messageArrived(topic: String, mqttMessage: MqttMessage) {
-//                Log.w("Debug", "Message received from host '': $mqttMessage")
-////                textViewNumMsgs.text = ("${textViewNumMsgs.text.toString().toInt() + 1}")
-////                val str: String = "------------"+ Calendar.getInstance().time +"-------------\n$mqttMessage\n${textViewMsgPayload.text}"
-////                textViewMsgPayload.text = str
-//
-////                showDialog(topic,mqttMessage)
-//
-//                Snackbar.make(requireActivity().findViewById(android.R.id.content), "$mqttMessage",
-//                    Snackbar.LENGTH_LONG)
-//                    .setAction("Action", null).show()
-//            }
-//
-//            override fun deliveryComplete(iMqttDeliveryToken: IMqttDeliveryToken) {
-////                Log.w("Debug", "Message published to host '$SOLACE_MQTT_HOST'")
-//            }
-//        })
-//    }
-
-//    private fun showDialog(topic: String, msg: ArrayList<String>) {
-//        val dialog = Dialog(requireContext())
-//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-//        dialog.setCancelable(false)
-//        dialog.setContentView(R.layout.app_dialog)
-//        dialog.window?.setBackgroundDrawable( ColorDrawable(Color.TRANSPARENT))
-//
-//        val becons = dialog.findViewById(R.id.top) as RecyclerView
-//        becons.layoutManager = LinearLayoutManager(requireContext())
-//        val adapter = AdapterMsg(requireContext() , msg)
-//        becons.adapter = adapter
-//
-//        val body = dialog.findViewById(R.id.ok_dialog_title) as TextView
-//        body.text = topic
-////
-////        val yesBtn = dialog.findViewById(R.id.ok_button_dialog) as Button
-////        yesBtn.setOnClickListener {
-////            dialog.dismiss()
-////        }
-//        dialog.show()
-//    }
-
-
 }

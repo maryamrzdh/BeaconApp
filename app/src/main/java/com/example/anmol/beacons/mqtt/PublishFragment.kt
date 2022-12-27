@@ -29,14 +29,13 @@ import kotlin.math.pow
 class PublishFragment : Fragment() , SensorEventListener , BeaconConsumer , AdapterView.OnItemSelectedListener{
 
     lateinit var textViewMsgPayload:TextView
-    lateinit var editTextPubTopic:Spinner
+    private lateinit var spinner:Spinner
     lateinit var editTextMsgPayload:EditText
     private lateinit var sensorManager: SensorManager
     private var speedSensor: Sensor? = null
     var baecons :ArrayList<Beacon>?= null
     var topic:String = "app/beacon"
 
-    private lateinit var spinner : Spinner
     private val paths = arrayOf("app/beacon", "app/accelerometer")
 
     private val mqttClient by lazy {
@@ -59,12 +58,12 @@ class PublishFragment : Fragment() , SensorEventListener , BeaconConsumer , Adap
         // Inflate the layout for this fragment
         val v = inflater.inflate(R.layout.fragment_publish, container, false)
 
+        this.spinner = v.findViewById(R.id.editTextPubTopic)
         setUpSensor()
         setSpinner()
 
         val btnPub = v.findViewById<Button>(R.id.btnPub)
         val btnSub = v.findViewById<Button>(R.id.btnSub)
-        editTextPubTopic = v.findViewById(R.id.editTextPubTopic)
         val editTextSubTopic = v.findViewById<EditText>(R.id.editTextSubTopic)
 
         // pub button
@@ -105,9 +104,9 @@ class PublishFragment : Fragment() , SensorEventListener , BeaconConsumer , Adap
         )
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.adapter = adapter
-        spinner.onItemSelectedListener = this
-        spinner.setSelection(0)
+        this.spinner.adapter = adapter
+        this.spinner.onItemSelectedListener = this
+        this.spinner.setSelection(0)
     }
 
     private fun setMqttCallBack() {
@@ -151,7 +150,21 @@ class PublishFragment : Fragment() , SensorEventListener , BeaconConsumer , Adap
         snackbarMsg = "Cannot publish to empty topic!"
         if (topic.isNotEmpty()) {
             snackbarMsg = try {
-                mqttClient.publish(topic, editTextMsgPayload.text.toString())
+//                mqttClient.publish(topic, "message")
+
+                when(topic){
+                    "app/beacon" -> {
+                        var result =""
+                        if (baecons!=null){
+                            for (b in baecons!!){
+                                result += "${b.id1} \n"
+                            }
+                            mqttClient.publish(topic, result)
+                        }
+                    }
+                    "app/accelerometer" -> { mqttClient.publish(topic, speed)}
+                }
+
                 "Published to topic '$topic'"
             } catch (ex: MqttException) {
                 "Error publishing to topic: $topic"
@@ -159,26 +172,6 @@ class PublishFragment : Fragment() , SensorEventListener , BeaconConsumer , Adap
         }
         Snackbar.make(requireView(), snackbarMsg, 300)
             .setAction("Action", null).show()
-
-        try {
-            when(topic){
-                "app/beacon" -> {
-
-                    var result =""
-                    if (baecons!=null){
-                        for (b in baecons!!){
-                            result += "${b.id1} \n"
-                        }
-                        mqttClient.publish(topic, result)
-                    }
-                }
-                "app/accelerometer" -> { mqttClient.publish(topic, speed)}
-            }
-
-            "Published to topic app/beacon'"
-        } catch (ex: MqttException) {
-            "Error publishing to topic: app/beacon"
-        }
     }
 
     override fun onSensorChanged(event: SensorEvent?) {

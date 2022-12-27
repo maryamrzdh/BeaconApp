@@ -61,14 +61,14 @@ class BeaconSimu : AppCompatActivity() , AdapterView.OnItemSelectedListener{
         setSpinner()
 
         //// Making of random UUID
-//        val uuid1 = Math.floor(Math.random() * 8 + 1).toInt()
-//            .toString() + "f" + Math.floor(Math.random() * (999999 - 100000) + 100000)
-//            .toInt() + "-" + "cf" + Math.floor(
-//            Math.random() * 8 + 1
-//        ).toInt() + "d-4a0f-adf2-f" + Math.floor(Math.random() * 9999 - 1000 + 1000)
-//            .toInt() + "ba9ffa6"
+        val uuid1 = Math.floor(Math.random() * 8 + 1).toInt()
+            .toString() + "f" + Math.floor(Math.random() * (999999 - 100000) + 100000)
+            .toInt() + "-" + "cf" + Math.floor(
+            Math.random() * 8 + 1
+        ).toInt() + "d-4a0f-adf2-f" + Math.floor(Math.random() * 9999 - 1000 + 1000)
+            .toInt() + "ba9ffa6"
 
-        val uuid1 =UUID.randomUUID().hashCode().toString()
+//        val uuid1 =UUID.randomUUID().hashCode().toString()
         // Displaying the random UUID to TextView
         uuid.setText(uuid1)
 
@@ -103,7 +103,7 @@ class BeaconSimu : AppCompatActivity() , AdapterView.OnItemSelectedListener{
                     .setId2(major.text.toString())
                     .setId3(minor.text.toString())
 //                    .setBeaconTypeCode(beaconTypeCode)
-                    .setManufacturer(0x0118)
+                    .setManufacturer(beaconManufacture)
                     .setTxPower(-69)
                     .setRssi(-66)
                     .setBluetoothName("Hall 1")

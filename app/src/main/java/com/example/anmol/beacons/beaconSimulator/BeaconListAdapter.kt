@@ -63,7 +63,7 @@ internal class BeaconListAdapter(var context : Context, var arr: ArrayList<Beaco
         //Displaying distance
         holder.distance.text = beacon.distance.toString()
 
-        holder.type.text = beaconType(beacon.beaconTypeCode)
+        holder.type.text = beaconType(beacon.manufacturer)
     }
 
     override fun getItemCount(): Int {
@@ -78,8 +78,8 @@ internal class BeaconListAdapter(var context : Context, var arr: ArrayList<Beaco
 
     private fun beaconType(code:Int):String {
         return when(code){
-            48812 -> context.getString(R.string.altbeacon)
-            533 -> context.getString(R.string.ibeacon)
+            0x004C -> context.getString(R.string.ibeacon)
+            0x0118 -> context.getString(R.string.altbeacon)
             else->""
         }
     }

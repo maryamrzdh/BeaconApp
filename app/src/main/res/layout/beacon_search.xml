@@ -21,31 +21,34 @@
         android:layout_height="0dp"
         android:visibility="gone"
         android:paddingBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_publish"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <RelativeLayout
-        android:visibility="gone"
         android:id="@+id/Relative_One"
         android:layout_width="match_parent"
+        android:layout_height="100dp"
         android:layout_centerInParent="true"
-        android:layout_height="100dp">
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/octagon"/>
+            android:src="@drawable/octagon" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:textSize="20sp"
+            android:text="No Nearby Beacon Detected"
             android:textColor="#0f0f0f"
-            android:textStyle="bold"
-            android:text="No Nearby Beacon Detected"/>
+            android:textSize="20sp"
+            android:textStyle="bold" />
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

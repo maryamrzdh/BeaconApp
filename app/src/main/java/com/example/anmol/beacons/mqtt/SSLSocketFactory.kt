@@ -1,19 +1,21 @@
 package com.example.anmol.beacons.mqtt
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.bouncycastle.openssl.PEMKeyPair
 import org.bouncycastle.openssl.PEMParser
 import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter
+import org.eclipse.paho.client.mqttv3.MqttSecurityException
 import java.io.BufferedInputStream
+import java.io.IOException
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.security.*
+import java.security.cert.CertificateException
 import java.security.cert.CertificateFactory
 import java.security.cert.X509Certificate
-import javax.net.ssl.KeyManagerFactory
-import javax.net.ssl.SSLContext
-import javax.net.ssl.SSLSocketFactory
-import javax.net.ssl.TrustManagerFactory
+import javax.net.ssl.*
 
 
 @Throws(Exception::class)
@@ -53,19 +55,13 @@ fun getSocketFactory(
     val ks = KeyStore.getInstance(KeyStore.getDefaultType())
     ks.load(null, null)
     ks.setCertificateEntry("certificate", cert)
-    ks.setKeyEntry(
-        "private-cert",
-        key.getPrivate(),
-        password.toCharArray(),
-        arrayOf<Certificate?>(cert)
-    )
 
-    ks.setKeyEntry(
-        "private-cert",
-        key.private,
-        password.toCharArray(),
-        arrayOf<java.security.cert.Certificate>(cert)
-    )
+//    ks.setKeyEntry(
+//        "private-cert",
+//        key.private,
+//        password.toCharArray(),
+//        arrayOf<java.security.cert.Certificate>(cert)
+//    )
     val kmf: KeyManagerFactory =
         KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm())
     kmf.init(ks, password.toCharArray())
@@ -74,38 +70,38 @@ fun getSocketFactory(
     return context.socketFactory
 }
 
-//@RequiresApi(Build.VERSION_CODES.TIRAMISU)
-//@Throws(MqttSecurityException::class)
-//fun getSSLSocketFactory(keyStore: InputStream?, password: String): SSLSocketFactory? {
-//    return try {
-//        var ctx: SSLContext? = null
-//        var sslSockFactory: SSLSocketFactory? = null
-//        val ks: KeyStore
-//        ks = KeyStore.getInstance("PKCS12")
-//        ks.load(keyStore, password.toCharArray())
-//        val tmf = TrustManagerFactory.getInstance("X509")
-//        tmf.init(ks)
-//        val tm: Array<TrustManager> = tmf.trustManagers
-//        ctx = SSLContext.getInstance("TLS")
-//        ctx.init(null, tm, null)
-//        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
-////            sslSockFactory = TLSSocketFactory(tm)
-//        } else {
-//            sslSockFactory = ctx.socketFactory
-//        }
-//        sslSockFactory
-//    }
-////    catch (e: KeyStoreException) {
-////        throw MqttSecurityException(e)
-////    }
-//
-//    catch (e: CertificateException) {
-//        throw MqttSecurityException(e)
-//    } catch (e: IOException) {
-//        throw MqttSecurityException(e)
-//    } catch (e: NoSuchAlgorithmException) {
-//        throw MqttSecurityException(e)
-//    } catch (e: KeyManagementException) {
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
+@Throws(MqttSecurityException::class)
+fun getSSLSocketFactory(keyStore: InputStream?, password: String): SSLSocketFactory? {
+    return try {
+        var ctx: SSLContext? = null
+        var sslSockFactory: SSLSocketFactory? = null
+        val ks: KeyStore
+        ks = KeyStore.getInstance("PKCS12")
+        ks.load(keyStore, password.toCharArray())
+        val tmf = TrustManagerFactory.getInstance("X509")
+        tmf.init(ks)
+        val tm: Array<TrustManager> = tmf.trustManagers
+        ctx = SSLContext.getInstance("TLS")
+        ctx.init(null, tm, null)
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+//            sslSockFactory = TLSSocketFactory(tm)
+        } else {
+            sslSockFactory = ctx.socketFactory
+        }
+        sslSockFactory
+    }
+//    catch (e: KeyStoreException) {
 //        throw MqttSecurityException(e)
 //    }
-//}
+
+    catch (e: CertificateException) {
+        throw MqttSecurityException(e)
+    } catch (e: IOException) {
+        throw MqttSecurityException(e)
+    } catch (e: NoSuchAlgorithmException) {
+        throw MqttSecurityException(e)
+    } catch (e: KeyManagementException) {
+        throw MqttSecurityException(e)
+    }
+}

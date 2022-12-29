@@ -5,8 +5,9 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.example.anmol.beacons.*
+import info.mqtt.android.service.MqttAndroidClient
 import org.bouncycastle.jce.provider.BouncyCastleProvider
-import org.eclipse.paho.android.service.MqttAndroidClient
+//import org.eclipse.paho.android.service.MqttAndroidClient
 import org.eclipse.paho.client.mqttv3.*
 import java.io.InputStream
 import java.security.KeyStore
@@ -32,11 +33,11 @@ class MqttClientHelper(context: Context?) {
 //var persistence: MemoryPersistence? = MemoryPersistence()
 
     fun setCallback(callback: MqttCallbackExtended?) {
-        mqttAndroidClient.setCallback(callback)
+        callback?.let { mqttAndroidClient.setCallback(it) }
     }
 
     init {
-        mqttAndroidClient = MqttAndroidClient(context, serverUri, clientId)
+        mqttAndroidClient = MqttAndroidClient(context!!, serverUri, clientId)
         mqttAndroidClient.setCallback(object : MqttCallbackExtended {
             override fun connectComplete(b: Boolean, s: String) {
                 Log.w(TAG, s)
@@ -124,8 +125,8 @@ class MqttClientHelper(context: Context?) {
         val mqttConnectOptions = MqttConnectOptions()
         mqttConnectOptions.isAutomaticReconnect = SOLACE_CONNECTION_RECONNECT
         mqttConnectOptions.isCleanSession = SOLACE_CONNECTION_CLEAN_SESSION
-//        mqttConnectOptions.userName = SOLACE_CLIENT_USER_NAME
-//        mqttConnectOptions.password = SOLACE_CLIENT_PASSWORD.toCharArray()
+        mqttConnectOptions.userName = SOLACE_CLIENT_USER_NAME
+        mqttConnectOptions.password = SOLACE_CLIENT_PASSWORD.toCharArray()
         mqttConnectOptions.connectionTimeout = SOLACE_CONNECTION_TIMEOUT
         mqttConnectOptions.keepAliveInterval = SOLACE_CONNECTION_KEEP_ALIVE_INTERVAL
 
@@ -133,9 +134,11 @@ class MqttClientHelper(context: Context?) {
         val crtFile: InputStream = context?.getResources()?.openRawResource(R.raw.cert)!!
         val keyFile: InputStream = context?.getResources()?.openRawResource(R.raw.key)!!
 //        mqttConnectOptions.socketFactory = getSSLSocketFactory(null, "")
-//        mqttConnectOptions.socketFactory = sslCtx?.socketFactory
+        mqttConnectOptions.socketFactory = sslCtx?.socketFactory
+//        mqttConnectOptions.socketFactory = getSocketFactory(caCrtFile, crtFile, keyFile, "")
+//        mqttConnectOptions.socketFactory =
+//            SslUtil.getSocketFactory(caCrtFile, crtFile, keyFile, "password")
 
-        mqttConnectOptions.socketFactory = getSocketFactory(caCrtFile, crtFile, keyFile, "")
         try {
             mqttAndroidClient.connect(mqttConnectOptions, null, object : IMqttActionListener {
                 override fun onSuccess(asyncActionToken: IMqttToken) {

@@ -123,8 +123,9 @@ class BeaconSimu : AppCompatActivity() , AdapterView.OnItemSelectedListener{
                     .setText("Successfully Started")
                     .setDuration(Style.DURATION_LONG)
                     .setFrame(Style.FRAME_LOLLIPOP)
-                    .setColor(PaletteUtils.getSolidColor(PaletteUtils.MATERIAL_PURPLE))
-                    .setAnimations(Style.ANIMATIONS_POP).show()
+//                    .setColor(PaletteUtils.getSolidColor(PaletteUtils.MATERIAL_PURPLE))
+//                    .setAnimations(Style.ANIMATIONS_POP)
+                    .show()
 
 
                 // Making some animation and changing the text of button

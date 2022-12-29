@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity() {
 
     // ViewPager
     private var viewPager: ViewPager? = null
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -74,12 +76,14 @@ private fun askPermissions(isForOpen: Boolean) {
             Manifest.permission.ACCESS_COARSE_LOCATION
         )
     ) permissionsRequired.add("Write External Storage")
-    if (!checkPermission(
-            permissionsList,
-            Manifest.permission.ACCESS_BACKGROUND_LOCATION
-        )
-    ) permissionsRequired.add("Write Contact")
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
 
+        if (!checkPermission(
+                permissionsList,
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+            )
+        ) permissionsRequired.add("Write Contact")
+    }
     if (permissionsList.size > 0 && !isRationale) {
 //            if (permissionsRequired.size > 0) {
 //            }
